@@ -43,4 +43,14 @@ while True:
     
     # Extract the last message (the agent's response)
     last_message = result["messages"][-1]
-    print(f"my Agent: {last_message.content}")
+    content = last_message.content
+    
+    # Handle Gemini's structured response format
+    if isinstance(content, list):
+        # Extract text from the content blocks
+        text_parts = [block.get("text", "") for block in content if isinstance(block, dict) and block.get("type") == "text"]
+        output = "".join(text_parts)
+    else:
+        output = content
+    
+    print(f"my Agent: {output}")
