@@ -6,7 +6,11 @@ import sklearn
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import create_agent
-from utils import list_csv_files, preload_datasets, get_dataset_summaries, call_dataframe_method
+from utils import (
+    list_csv_files, preload_datasets, get_dataset_summaries, call_dataframe_method,
+    drop_column, rename_column, drop_rows_with_missing, fill_missing_values,
+    filter_dataset, save_dataset
+)
 from utils_evaluation import evaluate_classification_dataset, evaluate_regression_dataset
 
 
@@ -27,7 +31,15 @@ system_prompt = (
     "If it is something else, try to suggest what the dataset represents."
 )
 
-tools = [list_csv_files, preload_datasets, get_dataset_summaries, call_dataframe_method, evaluate_classification_dataset, evaluate_regression_dataset]
+tools = [
+    # Reading/Analysis tools
+    list_csv_files, preload_datasets, get_dataset_summaries, call_dataframe_method,
+    # Editing tools
+    drop_column, rename_column, drop_rows_with_missing, fill_missing_values,
+    filter_dataset, save_dataset,
+    # Evaluation tools
+    evaluate_classification_dataset, evaluate_regression_dataset
+]
 
 # Create the agent using LangGraph's prebuilt create_react_agent
 agent = create_agent(model=llm, tools=tools, system_prompt=system_prompt)
