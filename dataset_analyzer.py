@@ -24,6 +24,7 @@ llm = ChatGoogleGenerativeAI(
 system_prompt = (
     "You are a data science assistant. Use the available tools to analyze CSV files. "
     "Your job is to determine whether each dataset is for classification or regression, based on its structure."
+    "If it is something else, try to suggest what the dataset represents."
 )
 
 tools = [list_csv_files, preload_datasets, get_dataset_summaries, call_dataframe_method, evaluate_classification_dataset, evaluate_regression_dataset]
